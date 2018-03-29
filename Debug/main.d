@@ -10,9 +10,6 @@ main.obj: /home/david/ti/ccsv7/ccs_base/arm/include/msp432p401r_classic.h
 main.obj: /home/david/ti/ccsv7/ccs_base/arm/include/CMSIS/core_cm4.h
 main.obj: /home/david/ti/ccsv7/ccs_base/arm/include/CMSIS/cmsis_compiler.h
 main.obj: /home/david/ti/ccsv7/ccs_base/arm/include/system_msp432p401r.h
-main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdio.h
-main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/linkage.h
-main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdarg.h
 
 ../main.c: 
 /home/david/ti/ccsv7/ccs_base/arm/include/msp.h: 
@@ -24,6 +21,3 @@ main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stda
 /home/david/ti/ccsv7/ccs_base/arm/include/CMSIS/core_cm4.h: 
 /home/david/ti/ccsv7/ccs_base/arm/include/CMSIS/cmsis_compiler.h: 
 /home/david/ti/ccsv7/ccs_base/arm/include/system_msp432p401r.h: 
-/home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdio.h: 
-/home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/linkage.h: 
-/home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdarg.h: 
