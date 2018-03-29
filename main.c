@@ -43,7 +43,7 @@ void setup(void){
 void main_loop(void){
     int i = 0 ;
     int j = 0;
-    uint16_t adc_result;
+    int16_t adc_result;
     while(true){
         //for(i = 0; i<100000; i++){
             //printf("adentrod el for");
