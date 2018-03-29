@@ -1,0 +1,45 @@
+#include "msp.h"
+#include <stdint.h>
+#include <stdio.h>
+#define DAY_NIGHT_THR 10
+
+/**
+ * main.c
+ */
+
+void configure_adc(DIO_PORT_Even_Interruptable_Type * i_DPEITport, uint16_t i_u8bit){
+
+    i_DPEITport->SEL0 |= i_u8bit;
+    i_DPEITport->SEL1 |= i_u8bit;
+
+    ADC14->CTL0 = ADC14_CTL0_CONSEQ_2 | ADC14_CTL0_MSC | ADC14_CTL0_ENC | ADC14_CTL0_ON;
+    ADC14->MCTL[0] = ADC14_MCTLN_INCH_10;
+    ADC14->CTL1 = ADC14_CTL1_DF; // Signed intergers.
+
+    ADC14->IER0 = ADC14_IER0_IE0;
+}
+void configure_led(DIO_PORT_Even_Interruptable_Type * i_DPEITport, uint16_t i_u8bit){
+    i_DPEITport->DIR |= i_u8bit;
+}
+void init_timer(void){
+    printf("Hello World")
+}
+
+void setup(void){
+    configure_adc(P4, BIT3);
+    //configure_led();
+    init_timer();
+}
+
+void main_loop(void){
+   printf("Hello World");
+}
+void main(void){
+	WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD;		// stop watchdog time
+	setup();
+	//startup();
+	main_loop();
+}
+
+
+
