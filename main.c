@@ -8,7 +8,6 @@
 /**
  * main.c
  */
-
 void configure_adc(DIO_PORT_Even_Interruptable_Type * i_DPEITport, uint16_t i_u8bit){
 
     i_DPEITport->SEL0 |= i_u8bit;
@@ -17,10 +16,10 @@ void configure_adc(DIO_PORT_Even_Interruptable_Type * i_DPEITport, uint16_t i_u8
 
     ADC14->CTL0 = ADC14_CTL0_SHP | ADC14_CTL0_SHT0_0 | ADC14_CTL0_ON;
     ADC14->CTL0 |= ADC14_CTL0_CONSEQ_2 | ADC14_CTL0_MSC;
-    ADC14->CTL1 = ADC14_CTL1_RES_3;                 // 8Bits ADC
+    ADC14->CTL1 |= ADC14_CTL1_RES_3;                 // 8Bits ADC
 
     //ADC14->CTL0 = ADC14_CTL0_CONSEQ_2 | ADC14_CTL0_MSC | ADC14_CTL0_ENC | ADC14_CTL0_ON;
-    ADC14->MCTL[0] = ADC14_MCTLN_INCH_10;
+    ADC14->MCTL[0] = ADC14_MCTLN_INCH_10; //ADC14_MCTLN_VRSEL_14;
     ADC14->CTL1 |= ADC14_CTL1_DF; // Signed intergers.
 
     ADC14->CTL0 |= ADC14_CTL0_ENC;
