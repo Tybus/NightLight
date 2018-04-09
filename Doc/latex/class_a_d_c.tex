@@ -1,0 +1,215 @@
+\hypertarget{class_a_d_c}{}\section{A\+DC Class Reference}
+\label{class_a_d_c}\index{A\+DC@{A\+DC}}
+
+
+{\ttfamily \#include $<$A\+D\+C.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_a_d_c_a60b6e21403b1f30984f63832c0562960}{A\+DC} ()
+\item 
+\hyperlink{class_a_d_c_af40d5d1525b1eba51de9786a103197db}{A\+DC} (D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$, uint16\+\_\+t)
+\item 
+\hyperlink{class_a_d_c_a6e225179130905bc77b5f331bbe9b928}{A\+DC} (vector$<$ D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$ $>$, vector$<$ uint16\+\_\+t $>$)
+\item 
+\hyperlink{class_a_d_c_a383dcb0d6e72dec09af98be3c50ce5b8}{A\+DC} (D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$, uint16\+\_\+t, uint32\+\_\+t, uint32\+\_\+t)
+\item 
+\hyperlink{class_a_d_c_aa50e3631ffae7f96d2086ef38f0aa21c}{A\+DC} (vector$<$ D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$ $>$, vector$<$ uint16\+\_\+t $>$, uint32\+\_\+t, uint32\+\_\+t)
+\item 
+\hyperlink{class_a_d_c_a15176bd0348a3ba2869c44ea219fccc8}{A\+DC} (const \hyperlink{class_a_d_c}{A\+DC} \&)
+\item 
+virtual \hyperlink{class_a_d_c_aefd878291d0c14aa524df99af5a63148}{$\sim$\+A\+DC} ()
+\item 
+bool \hyperlink{class_a_d_c_a1383abad290f93a62058e1855dc096f0}{quick\+\_\+setup} (bool)
+\item 
+bool \hyperlink{class_a_d_c_a2a94fbf79a88a67299e0b080cfa03b5b}{setup} (bool)
+\item 
+bool \hyperlink{class_a_d_c_a2ade3f99ab4f731bc8f9e26c98477df3}{setup} (uint32\+\_\+t, uint32\+\_\+t, bool)
+\item 
+void \hyperlink{class_a_d_c_a74df33830f6ddcd4ba6b0502bddce2bf}{change\+\_\+settings} (uint32\+\_\+t, uint32\+\_\+t)
+\item 
+bool \hyperlink{class_a_d_c_a7ad01b7e9c0555c1169a8e3587a46604}{init} (void)
+\item 
+void \hyperlink{class_a_d_c_aa2b36d6f7f186ba0e7d5d76fe6957cc0}{add\+Port} (D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$, uint16\+\_\+t)
+\item 
+void \hyperlink{class_a_d_c_a1833bbffd5d2d25bec1753c10cbaa6e6}{add\+Port} (vector$<$ D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$ $>$, vector$<$ uint16\+\_\+t $>$)
+\item 
+int16\+\_\+t \hyperlink{class_a_d_c_a57b621c5650b4ed9facfe9799d780a2a}{read} (D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$, uint16\+\_\+t)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_a_d_c}{A\+DC} class made for controlling the \hyperlink{class_a_d_c}{A\+DC} ports in the M\+S\+P432 P401R Launch\+Pad Development Kit. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{A\+DC@{A\+DC}!A\+DC@{A\+DC}}
+\index{A\+DC@{A\+DC}!A\+DC@{A\+DC}}
+\subsubsection[{\texorpdfstring{A\+D\+C()}{ADC()}}]{\setlength{\rightskip}{0pt plus 5cm}A\+D\+C\+::\+A\+DC (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_a_d_c_a60b6e21403b1f30984f63832c0562960}{}\label{class_a_d_c_a60b6e21403b1f30984f63832c0562960}
+Standard constructor without paramenters. You\textquotesingle{}ll have to add the \hyperlink{class_a_d_c}{A\+DC} port you want to use later on using \hyperlink{class_a_d_c_aa2b36d6f7f186ba0e7d5d76fe6957cc0}{A\+D\+C\+::add\+Port(\+D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$, uint16\+\_\+t)} or \hyperlink{class_a_d_c_a1833bbffd5d2d25bec1753c10cbaa6e6}{add\+Port(vector$<$\+D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type$\ast$$>$, vector$<$uint16\+\_\+t$>$)}
+
+After setting up the ports you have to use \hyperlink{class_a_d_c_a2a94fbf79a88a67299e0b080cfa03b5b}{A\+D\+C\+::setup()} to set the configuration parameters. \index{A\+DC@{A\+DC}!A\+DC@{A\+DC}}
+\index{A\+DC@{A\+DC}!A\+DC@{A\+DC}}
+\subsubsection[{\texorpdfstring{A\+D\+C(\+D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$, uint16\+\_\+t)}{ADC(DIO_PORT_Even_Interruptable_Type *, uint16_t)}}]{\setlength{\rightskip}{0pt plus 5cm}A\+D\+C\+::\+A\+DC (
+\begin{DoxyParamCaption}
+\item[{D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$}]{i\+\_\+p\+Port, }
+\item[{uint16\+\_\+t}]{i\+\_\+u16\+Bit}
+\end{DoxyParamCaption}
+)}\hypertarget{class_a_d_c_af40d5d1525b1eba51de9786a103197db}{}\label{class_a_d_c_af40d5d1525b1eba51de9786a103197db}
+Standard constructor it will receive a 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em i\+\_\+p\+Port} & and a \\
+\hline
+\mbox{\tt in}  & {\em i\+\_\+u16\+Bit} & to construct a \hyperlink{class_a_d_c}{A\+DC} based on the pin described. You are needed to run a \hyperlink{class_a_d_c_a2a94fbf79a88a67299e0b080cfa03b5b}{A\+D\+C\+::setup()} or \hyperlink{class_a_d_c_a1383abad290f93a62058e1855dc096f0}{A\+D\+C\+::quick\+\_\+setup(bool)} in order to get it running. \\
+\hline
+\end{DoxyParams}
+\index{A\+DC@{A\+DC}!A\+DC@{A\+DC}}
+\index{A\+DC@{A\+DC}!A\+DC@{A\+DC}}
+\subsubsection[{\texorpdfstring{A\+D\+C(vector$<$ D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$ $>$, vector$<$ uint16\+\_\+t $>$)}{ADC(vector< DIO_PORT_Even_Interruptable_Type * >, vector< uint16_t >)}}]{\setlength{\rightskip}{0pt plus 5cm}A\+D\+C\+::\+A\+DC (
+\begin{DoxyParamCaption}
+\item[{vector$<$ D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$ $>$}]{i\+\_\+v\+Port, }
+\item[{vector$<$ uint16\+\_\+t $>$}]{i\+\_\+v\+Bit}
+\end{DoxyParamCaption}
+)}\hypertarget{class_a_d_c_a6e225179130905bc77b5f331bbe9b928}{}\label{class_a_d_c_a6e225179130905bc77b5f331bbe9b928}
+You can also make a std\+::vector in order to implement a \hyperlink{class_a_d_c}{A\+DC} based on two vectors of ports. Keep in mind that multiple ports share the same configuration. \index{A\+DC@{A\+DC}!A\+DC@{A\+DC}}
+\index{A\+DC@{A\+DC}!A\+DC@{A\+DC}}
+\subsubsection[{\texorpdfstring{A\+D\+C(\+D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$, uint16\+\_\+t, uint32\+\_\+t, uint32\+\_\+t)}{ADC(DIO_PORT_Even_Interruptable_Type *, uint16_t, uint32_t, uint32_t)}}]{\setlength{\rightskip}{0pt plus 5cm}A\+D\+C\+::\+A\+DC (
+\begin{DoxyParamCaption}
+\item[{D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$}]{i\+\_\+p\+Port, }
+\item[{uint16\+\_\+t}]{i\+\_\+u16\+Bit, }
+\item[{uint32\+\_\+t}]{i\+\_\+u32\+C\+T\+L0, }
+\item[{uint32\+\_\+t}]{i\+\_\+u32\+C\+T\+L1}
+\end{DoxyParamCaption}
+)}\hypertarget{class_a_d_c_a383dcb0d6e72dec09af98be3c50ce5b8}{}\label{class_a_d_c_a383dcb0d6e72dec09af98be3c50ce5b8}
+You can enter the configuration values 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em i\+\_\+u32\+C\+T\+L0} & and \\
+\hline
+\mbox{\tt in}  & {\em i\+\_\+u32\+C\+T\+L1} & in order to get the \hyperlink{class_a_d_c}{A\+DC} started with the described parameters. After succesfully running this you can run \hyperlink{class_a_d_c_a7ad01b7e9c0555c1169a8e3587a46604}{A\+D\+C\+::init(void)} in order to get the \hyperlink{class_a_d_c}{A\+DC} started in the selected port with the selected parameters. This method will activate the \hyperlink{class_a_d_c}{A\+DC} interrupts. This \hyperlink{class_a_d_c}{A\+DC} construct will activate the interrupts from the A\+D\+C14\+\_\+\+I\+R\+Q\+Handler(void) automatically. \\
+\hline
+\end{DoxyParams}
+\index{A\+DC@{A\+DC}!A\+DC@{A\+DC}}
+\index{A\+DC@{A\+DC}!A\+DC@{A\+DC}}
+\subsubsection[{\texorpdfstring{A\+D\+C(vector$<$ D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$ $>$, vector$<$ uint16\+\_\+t $>$, uint32\+\_\+t, uint32\+\_\+t)}{ADC(vector< DIO_PORT_Even_Interruptable_Type * >, vector< uint16_t >, uint32_t, uint32_t)}}]{\setlength{\rightskip}{0pt plus 5cm}A\+D\+C\+::\+A\+DC (
+\begin{DoxyParamCaption}
+\item[{vector$<$ D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$ $>$}]{i\+\_\+v\+Port, }
+\item[{vector$<$ uint16\+\_\+t $>$}]{i\+\_\+v\+Bit, }
+\item[{uint32\+\_\+t}]{i\+\_\+u32\+C\+T\+L0, }
+\item[{uint32\+\_\+t}]{i\+\_\+u32\+C\+T\+L1}
+\end{DoxyParamCaption}
+)}\hypertarget{class_a_d_c_aa50e3631ffae7f96d2086ef38f0aa21c}{}\label{class_a_d_c_aa50e3631ffae7f96d2086ef38f0aa21c}
+Declaring multiple ports in the following constructor is easy by using std\+::vector, since configuration files are shared between \hyperlink{class_a_d_c}{A\+DC} conversions. You can ser 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em i\+\_\+u32\+C\+T\+L0} & and \\
+\hline
+\mbox{\tt in}  & {\em i\+\_\+u32\+C\+T\+L1} & for once. This \hyperlink{class_a_d_c}{A\+DC} construct will activate the interrupts from the A\+D\+C14\+\_\+\+I\+R\+Q\+Handler(void) automatically. \\
+\hline
+\end{DoxyParams}
+\index{A\+DC@{A\+DC}!A\+DC@{A\+DC}}
+\index{A\+DC@{A\+DC}!A\+DC@{A\+DC}}
+\subsubsection[{\texorpdfstring{A\+D\+C(const A\+D\+C \&)}{ADC(const ADC &)}}]{\setlength{\rightskip}{0pt plus 5cm}A\+D\+C\+::\+A\+DC (
+\begin{DoxyParamCaption}
+\item[{const {\bf A\+DC} \&}]{i\+\_\+\+A\+DC}
+\end{DoxyParamCaption}
+)}\hypertarget{class_a_d_c_a15176bd0348a3ba2869c44ea219fccc8}{}\label{class_a_d_c_a15176bd0348a3ba2869c44ea219fccc8}
+Copy constructor. Creates a copy of an already existing \hyperlink{class_a_d_c}{A\+DC} object. \index{A\+DC@{A\+DC}!````~A\+DC@{$\sim$\+A\+DC}}
+\index{````~A\+DC@{$\sim$\+A\+DC}!A\+DC@{A\+DC}}
+\subsubsection[{\texorpdfstring{$\sim$\+A\+D\+C()}{~ADC()}}]{\setlength{\rightskip}{0pt plus 5cm}A\+D\+C\+::$\sim$\+A\+DC (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_a_d_c_aefd878291d0c14aa524df99af5a63148}{}\label{class_a_d_c_aefd878291d0c14aa524df99af5a63148}
+Destructor, T\+BD. 
+
+\subsection{Member Function Documentation}
+\index{A\+DC@{A\+DC}!add\+Port@{add\+Port}}
+\index{add\+Port@{add\+Port}!A\+DC@{A\+DC}}
+\subsubsection[{\texorpdfstring{add\+Port(\+D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$, uint16\+\_\+t)}{addPort(DIO_PORT_Even_Interruptable_Type *, uint16_t)}}]{\setlength{\rightskip}{0pt plus 5cm}void A\+D\+C\+::add\+Port (
+\begin{DoxyParamCaption}
+\item[{D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$}]{, }
+\item[{uint16\+\_\+t}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_a_d_c_aa2b36d6f7f186ba0e7d5d76fe6957cc0}{}\label{class_a_d_c_aa2b36d6f7f186ba0e7d5d76fe6957cc0}
+Adds additional ports to the \hyperlink{class_a_d_c}{A\+DC} object, so you can controll more ports using a single object. \index{A\+DC@{A\+DC}!add\+Port@{add\+Port}}
+\index{add\+Port@{add\+Port}!A\+DC@{A\+DC}}
+\subsubsection[{\texorpdfstring{add\+Port(vector$<$ D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$ $>$, vector$<$ uint16\+\_\+t $>$)}{addPort(vector< DIO_PORT_Even_Interruptable_Type * >, vector< uint16_t >)}}]{\setlength{\rightskip}{0pt plus 5cm}void A\+D\+C\+::add\+Port (
+\begin{DoxyParamCaption}
+\item[{vector$<$ D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$ $>$}]{, }
+\item[{vector$<$ uint16\+\_\+t $>$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_a_d_c_a1833bbffd5d2d25bec1753c10cbaa6e6}{}\label{class_a_d_c_a1833bbffd5d2d25bec1753c10cbaa6e6}
+Adds additional ports using std\+::vector. \index{A\+DC@{A\+DC}!change\+\_\+settings@{change\+\_\+settings}}
+\index{change\+\_\+settings@{change\+\_\+settings}!A\+DC@{A\+DC}}
+\subsubsection[{\texorpdfstring{change\+\_\+settings(uint32\+\_\+t, uint32\+\_\+t)}{change_settings(uint32_t, uint32_t)}}]{\setlength{\rightskip}{0pt plus 5cm}void A\+D\+C\+::change\+\_\+settings (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{, }
+\item[{uint32\+\_\+t}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_a_d_c_a74df33830f6ddcd4ba6b0502bddce2bf}{}\label{class_a_d_c_a74df33830f6ddcd4ba6b0502bddce2bf}
+This method is used to change the setings of the \hyperlink{class_a_d_c}{A\+DC} in midrun, remember that the configuration parameters are the same for every channel you\textquotesingle{}re using. \index{A\+DC@{A\+DC}!init@{init}}
+\index{init@{init}!A\+DC@{A\+DC}}
+\subsubsection[{\texorpdfstring{init(void)}{init(void)}}]{\setlength{\rightskip}{0pt plus 5cm}bool A\+D\+C\+::init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_a_d_c_a7ad01b7e9c0555c1169a8e3587a46604}{}\label{class_a_d_c_a7ad01b7e9c0555c1169a8e3587a46604}
+This method starts an \hyperlink{class_a_d_c}{A\+DC} conversion. you\textquotesingle{}ll have to wait untill it finishes and then use the \hyperlink{class_a_d_c_a57b621c5650b4ed9facfe9799d780a2a}{A\+D\+C\+::read()} function in order to get the results. Or if handle the interrupts externally. \index{A\+DC@{A\+DC}!quick\+\_\+setup@{quick\+\_\+setup}}
+\index{quick\+\_\+setup@{quick\+\_\+setup}!A\+DC@{A\+DC}}
+\subsubsection[{\texorpdfstring{quick\+\_\+setup(bool)}{quick_setup(bool)}}]{\setlength{\rightskip}{0pt plus 5cm}bool A\+D\+C\+::quick\+\_\+setup (
+\begin{DoxyParamCaption}
+\item[{bool}]{i\+\_\+b\+Interrupt\+Enable}
+\end{DoxyParamCaption}
+)}\hypertarget{class_a_d_c_a1383abad290f93a62058e1855dc096f0}{}\label{class_a_d_c_a1383abad290f93a62058e1855dc096f0}
+Quick setup will start the \hyperlink{class_a_d_c}{A\+DC} with the recommended values, use 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em i\+\_\+b\+Interrupt\+Enable} & in order to get the interrupts running (or not) run \hyperlink{class_a_d_c_a7ad01b7e9c0555c1169a8e3587a46604}{A\+D\+C\+::init(void)} in order to start a conversion. \\
+\hline
+\end{DoxyParams}
+\index{A\+DC@{A\+DC}!read@{read}}
+\index{read@{read}!A\+DC@{A\+DC}}
+\subsubsection[{\texorpdfstring{read(\+D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$, uint16\+\_\+t)}{read(DIO_PORT_Even_Interruptable_Type *, uint16_t)}}]{\setlength{\rightskip}{0pt plus 5cm}int16\+\_\+t A\+D\+C\+::read (
+\begin{DoxyParamCaption}
+\item[{D\+I\+O\+\_\+\+P\+O\+R\+T\+\_\+\+Even\+\_\+\+Interruptable\+\_\+\+Type $\ast$}]{i\+\_\+p\+Port, }
+\item[{uint16\+\_\+t}]{i\+\_\+u16p\+Bit}
+\end{DoxyParamCaption}
+)}\hypertarget{class_a_d_c_a57b621c5650b4ed9facfe9799d780a2a}{}\label{class_a_d_c_a57b621c5650b4ed9facfe9799d780a2a}
+Returns a int16\+\_\+t value, no matter the size of the convertion you configured, it is currently using signed intergers as values. Will support other data types in the future. \index{A\+DC@{A\+DC}!setup@{setup}}
+\index{setup@{setup}!A\+DC@{A\+DC}}
+\subsubsection[{\texorpdfstring{setup(bool)}{setup(bool)}}]{\setlength{\rightskip}{0pt plus 5cm}bool A\+D\+C\+::setup (
+\begin{DoxyParamCaption}
+\item[{bool}]{i\+\_\+b\+Interrupt\+Enable}
+\end{DoxyParamCaption}
+)}\hypertarget{class_a_d_c_a2a94fbf79a88a67299e0b080cfa03b5b}{}\label{class_a_d_c_a2a94fbf79a88a67299e0b080cfa03b5b}
+Setup the \hyperlink{class_a_d_c}{A\+DC} based on the already established configuration files. A\+D\+C\+::m\+\_\+u32\+C\+T\+L0 and A\+D\+C\+::m\+\_\+u32\+C\+T\+L1 if none has been selected, it will set it up using the \hyperlink{class_a_d_c_a1383abad290f93a62058e1855dc096f0}{A\+D\+C\+::quick\+\_\+setup(bool)} method. use 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em i\+\_\+b\+Interrupt\+Enable} & in order to get the interrupts running (or not). run \hyperlink{class_a_d_c_a7ad01b7e9c0555c1169a8e3587a46604}{A\+D\+C\+::init(void)} in order to start a conversion. \\
+\hline
+\end{DoxyParams}
+\index{A\+DC@{A\+DC}!setup@{setup}}
+\index{setup@{setup}!A\+DC@{A\+DC}}
+\subsubsection[{\texorpdfstring{setup(uint32\+\_\+t, uint32\+\_\+t, bool)}{setup(uint32_t, uint32_t, bool)}}]{\setlength{\rightskip}{0pt plus 5cm}bool A\+D\+C\+::setup (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{i\+\_\+u32\+C\+T\+L0, }
+\item[{uint32\+\_\+t}]{i\+\_\+u32\+C\+T\+L1, }
+\item[{bool}]{i\+\_\+b\+Interrupt\+Enable}
+\end{DoxyParamCaption}
+)}\hypertarget{class_a_d_c_a2ade3f99ab4f731bc8f9e26c98477df3}{}\label{class_a_d_c_a2ade3f99ab4f731bc8f9e26c98477df3}
+Setup the \hyperlink{class_a_d_c}{A\+DC} with new configuration files 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em i\+\_\+u32\+C\+T\+L0} & and \\
+\hline
+\mbox{\tt in}  & {\em i\+\_\+u32\+C\+T\+L1} & in order to get the \hyperlink{class_a_d_c}{A\+DC} configured, run \hyperlink{class_a_d_c_a7ad01b7e9c0555c1169a8e3587a46604}{A\+D\+C\+::init(void)} in order to start a conversion. use \\
+\hline
+\mbox{\tt in}  & {\em i\+\_\+b\+Interrupt\+Enable} & in order to get the interrupts running (or not) \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+A\+D\+C.\+h\item 
+A\+D\+C.\+cpp\end{DoxyCompactItemize}

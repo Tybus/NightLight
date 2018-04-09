@@ -8,6 +8,7 @@ GEN_OPTS__FLAG :=
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
+"./ADC.obj" \
 "./main.obj" \
 "./startup_msp432p401r_ccs.obj" \
 "./system_msp432p401r.obj" \
@@ -120,42 +121,43 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-NIghtLight.out \
+NightLight.out \
 
 EXE_OUTPUTS__QUOTED += \
-"NIghtLight.out" \
+"NightLight.out" \
 
 BIN_OUTPUTS += \
-NIghtLight.hex \
+NightLight.hex \
 
 BIN_OUTPUTS__QUOTED += \
-"NIghtLight.hex" \
+"NightLight.hex" \
 
 
 # All Target
 all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "NIghtLight.out"
+	@$(MAKE) --no-print-directory -Onone "NightLight.out"
 
 # Tool invocations
-NIghtLight.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+NightLight.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: ARM Linker'
-	"/home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --advice:power=all --define=__MSP432P401R__ --define=ccs -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"NIghtLight.map" --heap_size=1024 --stack_size=512 -i"/home/david/ti/ccsv7/ccs_base/arm/include" -i"/home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/lib" -i"/home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="NIghtLight_linkInfo.xml" --rom_model -o "NIghtLight.out" $(ORDERED_OBJS)
+	"/home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --advice:power=all --define=__MSP432P401R__ --define=ccs -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"NightLight.map" --heap_size=1024 --stack_size=512 -i"/home/david/ti/ccsv7/ccs_base/arm/include" -i"/home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/lib" -i"/home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="NightLight_linkInfo.xml" --rom_model -o "NightLight.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
-NIghtLight.hex: $(EXE_OUTPUTS)
+NightLight.hex: $(EXE_OUTPUTS)
 	@echo 'Building files: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo 'Invoking: ARM Hex Utility'
-	"/home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/bin/armhex" --memwidth=8 --romwidth=8 -o "NIghtLight.hex" $(EXE_OUTPUTS__QUOTED)
+	"/home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/bin/armhex" --memwidth=8 --romwidth=8 -o "NightLight.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "main.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" 
-	-$(RM) "main.d" "startup_msp432p401r_ccs.d" "system_msp432p401r.d" 
+	-$(RM) "ADC.obj" "main.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" 
+	-$(RM) "startup_msp432p401r_ccs.d" "system_msp432p401r.d" 
+	-$(RM) "ADC.d" "main.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
