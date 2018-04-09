@@ -91,6 +91,6 @@ void ADC14_IRQHandler(void) {
     ADC14->CLRIFGR0 = ADC14->IFGR0;
     __enable_irq();
     return;
-}
+    }
 }
 */
