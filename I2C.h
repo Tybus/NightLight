@@ -9,14 +9,17 @@
 #define I2C_H_
 #include <stdint.h>
 #include <vector>
+extern "C" {
 #include "msp.h"
+}
+
 
 #define STARTIF UCTXIFG0
 #define MAX_BYTES 32
 #define MAX_RETRY 5
 
-#define TEMP_SENSOR ((uint16_t) 0b1000000)
-#define LIGHT_SENSOR ((uint16_t) 0b1000100)
+#define TEMP_SENSOR ((uint8_t) 0b1000000)
+#define LIGHT_SENSOR ((uint8_t) 0b1000100)
 
 using namespace std;
 /*!Class that manages the I2C port as a master in the MSP432 P401R LaunchPad Development Kit.

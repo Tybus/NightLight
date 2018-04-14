@@ -10,10 +10,7 @@ main.obj: /home/david/ti/ccsv7/ccs_base/arm/include/msp432p401r_classic.h
 main.obj: /home/david/ti/ccsv7/ccs_base/arm/include/CMSIS/core_cm4.h
 main.obj: /home/david/ti/ccsv7/ccs_base/arm/include/CMSIS/cmsis_compiler.h
 main.obj: /home/david/ti/ccsv7/ccs_base/arm/include/system_msp432p401r.h
-main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdio.h
-main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/linkage.h
-main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdarg.h
-main.obj: /home/david/Documents/Universidad/Incrustados/Labo\ 1/NightLight/ADC.h
+main.obj: /home/david/Documents/Universidad/Incrustados/Labo\ 1/NightLight/I2C.h
 main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/vector
 main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__prolog.h
 main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__cprolog.h
@@ -24,6 +21,7 @@ main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s_c_
 main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s_c_host.h
 main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s_c__system.h
 main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s_c__ti.h
+main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/linkage.h
 main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s_c_stl_confix.h
 main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s_d__debug.h
 main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__algobase.h
@@ -57,6 +55,7 @@ main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/exce
 main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/e_exception
 main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__cstdio.h
 main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdio.h
+main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdarg.h
 main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__construct.h
 main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__alloc.c
 main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__uninitialized.h
@@ -66,7 +65,6 @@ main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__b
 main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__relops_cont.h
 main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__epilog.h
 main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__config_compat_post.h
-main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdio.h
 
 ../main.cpp: 
 /home/david/ti/ccsv7/ccs_base/arm/include/msp.h: 
@@ -78,10 +76,7 @@ main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdi
 /home/david/ti/ccsv7/ccs_base/arm/include/CMSIS/core_cm4.h: 
 /home/david/ti/ccsv7/ccs_base/arm/include/CMSIS/cmsis_compiler.h: 
 /home/david/ti/ccsv7/ccs_base/arm/include/system_msp432p401r.h: 
-/home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdio.h: 
-/home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/linkage.h: 
-/home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdarg.h: 
-/home/david/Documents/Universidad/Incrustados/Labo\ 1/NightLight/ADC.h: 
+/home/david/Documents/Universidad/Incrustados/Labo\ 1/NightLight/I2C.h: 
 /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/vector: 
 /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__prolog.h: 
 /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__cprolog.h: 
@@ -92,6 +87,7 @@ main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdi
 /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s_c_host.h: 
 /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s_c__system.h: 
 /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s_c__ti.h: 
+/home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/linkage.h: 
 /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s_c_stl_confix.h: 
 /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s_d__debug.h: 
 /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__algobase.h: 
@@ -125,6 +121,7 @@ main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdi
 /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/e_exception: 
 /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__cstdio.h: 
 /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdio.h: 
+/home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdarg.h: 
 /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__construct.h: 
 /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__alloc.c: 
 /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__uninitialized.h: 
@@ -134,4 +131,3 @@ main.obj: /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdi
 /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__relops_cont.h: 
 /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__epilog.h: 
 /home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__config_compat_post.h: 
-/home/david/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdio.h: 

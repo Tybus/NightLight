@@ -36,17 +36,17 @@ I2C::I2C(uint8_t iu8SlaveAddress){
 
             UCB1CTLW0 = UCSWRST | UCSYNC; //Holds USCI in reset state
             //Do I have to wait here?
-            UCB1CTLW0 = UCSWRST | UCSYNC| UCMST | UCMODE_3 | UCSSEL_3;
-
+            UCB1CTLW0 = UCSWRST | UCSYNC| UCMST | UCMODE_3 | UCSSEL_3; //Using SMCLK.
+            UCB1BRW = 30; //Predivide the 3MHz Clk in Order to make a 100 Khz Clock
             UCB1CTLW1 = 0; //Leaving it to default.
 
             UCB1CTLW0 &= ~UCSWRST; //Unholds the USCI
 
             UCB1I2CSA = m_u16SlaveAddress;
-            UCB1IE = UCSTTIE; //Interrupts when Starts.
+            UCB1IE = UCSTTIE | UCNACKIE | UCTXIE0 | UCRXIE0 ; //Interrupts when Starts.
             // Lets accept interrupts.
-            NVIC_SetPriority(EUSCIA1_IRQn,1);
-            NVIC_EnableIRQ(EUSCIA1_IRQn);
+            NVIC_SetPriority(EUSCIB1_IRQn,1);
+            NVIC_EnableIRQ(EUSCIB1_IRQn);
          }
     }
 
@@ -55,7 +55,7 @@ I2C::I2C(uint8_t iu8SlaveAddress){
 bool I2C::send(uint8_t *i_pByteValues, size_t i_stSize){
     bool o_bCorrectlySent = 0;
     if(m_sstIterator == m_sstByteArraySize){//First check the conditions in which you can start sending.
-        UCB1I2CSA |= m_u16SlaveAddress;//Set the slave addres.
+        UCB1I2CSA = m_u16SlaveAddress;//Set the slave addres.
         UCB1CTLW0 |= UCTR; // Selecting Transmitter mode.
         UCB1CTLW0 |= UCTXSTT;//Starts the transmision.
 
@@ -92,14 +92,27 @@ I2C::~I2C()
     // TODO Auto-generated destructor stub
 }
 extern "C" {
-void EUSCIA1_IRQHandler(void){
+void EUSCIB1_IRQHandler(void){
     __disable_irq();
     if(UCB1CTLW0 & UCTR){ //If it is in Send Mode
-        switch(UCB1IFG){
-        case(UCTXIFG0):
+        if(UCB1IFG & UCNACKIFG){ // If UCNACKIFG is set
             //Clear the flag.
-            UCB1IFG |= STARTIF;
-            UCB1IFG &= ~STARTIF;
+            //UCB1IFG |= UCNACKIFG;
+            //UCB1IFG &= ~UCNACKIFG;
+            if(I2C::m_u8RetryCount < MAX_RETRY){
+                UCB1CTLW0 |= UCTR; // Selecting Transmitter mode.
+                UCB1CTLW0 |= UCTXSTT;//Starts the transmision.
+                UCB1TXBUF = I2C::m_su8ByteValues[I2C::m_sstIterator - 1]; //restarts the transmition where it ended.
+                I2C::m_u8RetryCount++;
+            }
+            else
+                UCB1CTLW0 |= UCTXSTP;
+
+        }
+        else if(UCB1IFG & UCTXIFG0){ //if UCTXIFG0 is set
+            //Clear the flag.
+            //UCB1IFG |= STARTIF; //NOt sure if I have to clean the flag this way
+            //UCB1IFG &= ~STARTIF;
             //Set the value
             if(I2C::m_sstIterator < I2C::m_sstByteArraySize) {
                 UCB1TXBUF = I2C::m_su8ByteValues[I2C::m_sstIterator]; //Starts sending subsequetial values
@@ -107,38 +120,11 @@ void EUSCIA1_IRQHandler(void){
             }
             else //Send a Stop
                 UCB1CTLW0 |= UCTXSTP;
-            break;
-        case(UCNACKIFG):
-            //Clear the flag.
-            UCB1IFG |= UCNACKIFG;
-            UCB1IFG &= ~UCNACKIFG;
-            if(I2C::m_u8RetryCount < MAX_RETRY){
-                UCB1CTLW0 |= UCTR; // Selecting Transmitter mode.
-                UCB1CTLW0 |= UCTXSTT;//Starts the transmision.
-                UCB1TXBUF = I2C::m_su8ByteValues[I2C::m_sstIterator - 1]; //restarts the transmition where it ended.
-                I2C::m_u8RetryCount++;
-            }
-            else //Send a Stop
-                UCB1CTLW0 |= UCTXSTP;
-            break;
         }
+        UCB1IFG = 0; //Delete all flags.
     }
     else{ // if it is in Receive Mode
-        switch(UCB1IFG){
-        case(STARTIF):
-            //Clear the flag.
-            UCB1IFG |= STARTIF;
-            UCB1IFG &= ~STARTIF;
-            break;
-        case(UCSTPIFG):
-            if(I2C::m_sstIterator == I2C::m_sstRxBuffSize -1){//Iterator at the end of the buffer
-                UCB1CTLW0 |= UCTXSTP; //Send Stop
-                *I2C::m_sbReadDone = 1; //Announce the caller that I2C was read.
-            }
-            I2C::m_spRxBuff[I2C::m_sstIterator] = (uint8_t) UCB1RXBUF; //This should Totally Count as as UCRB1RXBUF Read.
-            I2C::m_sstIterator++;
-            break;
-        case(UCNACKIFG):
+        if (UCB1IFG & UCNACKIFG){ // if UCNACKIFG
             //Clear the flag.
             UCB1IFG |= UCNACKIFG;
             UCB1IFG &= ~UCNACKIFG;
@@ -150,8 +136,22 @@ void EUSCIA1_IRQHandler(void){
             }
             else //Send a Stop
                 UCB1CTLW0 |= UCTXSTP;
-            break;
         }
+        else if(UCB1IFG & STARTIF){ // if STARTIF
+            //Clear the flag.
+            UCB1IFG |= STARTIF;
+            UCB1IFG &= ~STARTIF;
+        }
+        else if(UCB1IFG & UCRXIFG){ // IF UCRXIFG
+            if(I2C::m_sstIterator == I2C::m_sstRxBuffSize -1){//Iterator at the end of the buffer
+                UCB1CTLW0 |= UCTXSTP; //Send Stop
+                *I2C::m_sbReadDone = 1; //Announce the caller that I2C was read.
+            }
+            I2C::m_spRxBuff[I2C::m_sstIterator] = (uint8_t) UCB1RXBUF; //This should Totally Count as as UCRB1RXBUF Read.
+            I2C::m_sstIterator++;
+        }
+
+        UCB1IFG = 0; //Delete all flags.
     }
 
     __enable_irq();
