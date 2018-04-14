@@ -5,6 +5,7 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../ADC.cpp \
+../I2C.cpp \
 ../main.cpp 
 
 CMD_SRCS += \
@@ -20,16 +21,19 @@ C_DEPS += \
 
 OBJS += \
 ./ADC.obj \
+./I2C.obj \
 ./main.obj \
 ./startup_msp432p401r_ccs.obj \
 ./system_msp432p401r.obj 
 
 CPP_DEPS += \
 ./ADC.d \
+./I2C.d \
 ./main.d 
 
 OBJS__QUOTED += \
 "ADC.obj" \
+"I2C.obj" \
 "main.obj" \
 "startup_msp432p401r_ccs.obj" \
 "system_msp432p401r.obj" 
@@ -40,10 +44,12 @@ C_DEPS__QUOTED += \
 
 CPP_DEPS__QUOTED += \
 "ADC.d" \
+"I2C.d" \
 "main.d" 
 
 CPP_SRCS__QUOTED += \
 "../ADC.cpp" \
+"../I2C.cpp" \
 "../main.cpp" 
 
 C_SRCS__QUOTED += \

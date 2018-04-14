@@ -9,6 +9,7 @@ GEN_CMDS__FLAG :=
 
 ORDERED_OBJS += \
 "./ADC.obj" \
+"./I2C.obj" \
 "./main.obj" \
 "./startup_msp432p401r_ccs.obj" \
 "./system_msp432p401r.obj" \
@@ -155,9 +156,9 @@ NightLight.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "ADC.obj" "main.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" 
+	-$(RM) "ADC.obj" "I2C.obj" "main.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" 
 	-$(RM) "startup_msp432p401r_ccs.d" "system_msp432p401r.d" 
-	-$(RM) "ADC.d" "main.d" 
+	-$(RM) "ADC.d" "I2C.d" "main.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
