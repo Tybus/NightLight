@@ -50,21 +50,33 @@ LightSensor::LightSensor(nibble i_nRange, bool i_bConversionTime, bool i_bOperat
     }
 }
 float LightSensor::read(){
+    uint8_t l_u8RegisterAddress = 0;
     uint8_t l_aResultRegister[2];
     uint16_t l_u16FractionalResult;
+    uint16_t l_u16PowTwo;
+    uint8_t l_u8Exponent;
     bool * l_pReadDone = (bool *) malloc(sizeof(bool));
-    float l_fLSBSize, o_fLux,l_fExponent;
-
-    while(!m_I2CLightSensor.read(l_aResultRegister, 2, l_pReadDone)){ //Wait till you can send the read.
-    }
+    float l_fLSBSize, o_fLux;
+    while(!m_I2CLightSensor.send(&l_u8RegisterAddress,1)); //Send the Register Address to be read.
+    while(!m_I2CLightSensor.read(l_aResultRegister, 2, l_pReadDone)); //Wait till you can send the read.
 
     while(!*l_pReadDone){ // Wait till its done reading
+       // m_I2CLightSensor.send(&l_u8RegisterAddress,1);
+       // m_I2CLightSensor.read(l_aResultRegister, 2, l_pReadDone); //Wait till you can send the read.
     }
+
     //Converting the value found in the register to a uint16t
-    l_u16FractionalResult = (((uint16_t) l_aResultRegister[0])   << 8) | ((uint16_t) l_aResultRegister[1]);
-    l_fExponent = l_aResultRegister[0] >> 4;
-    l_fLSBSize = 0.01*pow(2,l_fExponent);//(2^l_fExponent);
+    l_u8Exponent = l_aResultRegister[0] >> 4; //Get the real value of the exponent.
+    //printf("Exponent %d \n", l_u8Exponent);
+    l_u16FractionalResult = ((uint16_t) l_aResultRegister[0]) << 8; //Shift the Fractional Result bits.
+    l_u16FractionalResult &= 0x0FFF; //Get Rid of the Exponent Values
+    l_u16FractionalResult |= (uint16_t) l_aResultRegister[1];
+    //printf("Fractional Result %d \n", l_u16FractionalResult);
+    l_u16PowTwo = 1 << l_u8Exponent;
+    //printf("2^EXP %d \n", l_u16PowTwo);
+    l_fLSBSize = 0.01*l_u16PowTwo;
     o_fLux = l_fLSBSize*l_u16FractionalResult;
+
     return o_fLux;
 }
 LightSensor::~LightSensor()

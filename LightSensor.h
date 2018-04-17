@@ -35,7 +35,7 @@ public:
     //! Will create an I2C object of the control of the Light Sensor int he BoosterPack.
     LightSensor();
     //! Create a I2C object with the selected parameters.
-    LightSensor::LightSensor(nibble i_nRange, bool i_bConversionTime, bool i_bOperationMode,
+    LightSensor(nibble i_nRange, bool i_bConversionTime, bool i_bOperationMode,
                              bool i_bWindowMode, bool i_bINTMode);
     //! Returns the read from the Light Sensor.
     float read(void);

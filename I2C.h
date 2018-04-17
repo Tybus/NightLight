@@ -51,6 +51,8 @@ public:
     static size_t m_sstRxBuffSize;
     //! Looks if it is done reading
     static bool * m_sbReadDone;
+    //! Signals if the I2C Bus is ready to start sending
+    static bool m_sbBusReady;
     //! Destructor
     ~I2C();
 private:
