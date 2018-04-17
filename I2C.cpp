@@ -8,7 +8,7 @@
 
 #include <I2C.h>
 #include "msp.h"
-
+//#include <math.h>
 
 //Some member static Variables
 
@@ -71,7 +71,7 @@ bool I2C::send(uint8_t *i_pByteValues, size_t i_stSize){
 bool I2C::read(uint8_t * i_pRxBuff, size_t i_stReadAmmount, bool * i_pReadDone){
     bool o_bCorrectlyRead = 0;
     //Conditions to Start Reading
-    if(1){
+    if(m_sstIterator == m_sstByteArraySize){
         UCB1I2CSA |= m_u16SlaveAddress; //Sets the Slave Address
         UCB1CTLW0 &= ~UCTR; //States Receiver Mode.
         UCB1CTLW0 |= UCTXSTT; // Starts Receiving
@@ -118,7 +118,7 @@ void EUSCIB1_IRQHandler(void){
                 UCB1TXBUF = I2C::m_su8ByteValues[I2C::m_sstIterator]; //Starts sending subsequetial values
                I2C::m_sstIterator++;
             }
-            else //Send a Stop
+            else
                 UCB1CTLW0 |= UCTXSTP;
         }
         UCB1IFG = 0; //Delete all flags.

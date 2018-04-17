@@ -56,7 +56,6 @@ public:
 private:
     //! Active if the I2C is already running.
     static bool m_bActive;
-
     //! Saves the slave address using it.
     uint16_t m_u16SlaveAddress;
 
