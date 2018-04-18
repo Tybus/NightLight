@@ -12,21 +12,8 @@ void main(void){
 
 	RTCConfiguration();
 
-	/*!States transition routine: Used to pass between the different states*/
-	while(1){
-	    g_iState = StateChanger();
-	    switch(g_iState){
-	    case 0:
-	        InitState();
-	        break;
-	    case 1:
-	        OFFState();
-	        break;
-	    case 2:
-	        ONState();
-	        break;
-	    }
-	}
+	/*!States transition function: Used to pass between the different states*/
+	StateChanger();
 }
 
 /*!For interruptions management*/
