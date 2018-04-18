@@ -150,21 +150,18 @@ void ONState(void){
 
 void StateChanger(){
     while(1){
- 	    switch(g_iPresentState){
-	        case 0:
-	            InitState();
-	            break;
-	        case 1:
-	            OFFState();
-	            break;
-	        case 2:
-	            ONState();
-	            break;
-	    }
+ 	switch(g_iPresentState){
+	    case 0:
+	        InitState();
+	        break;
+	    case 1:
+	        OFFState();
+	        break;
+	    case 2:
+	        ONState();
+	        break;
+	}
     }
-    
-    
-    return 0; //Default OFF state
 }
 
 void TimeCounter(){
