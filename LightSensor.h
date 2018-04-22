@@ -18,6 +18,7 @@
 #define LATCHED_WINDOW (bool) 1
 #define ACTIVE_LOW (bool) 0
 #define ACTIVE_HIGH (bool) 1
+#define LS_POL (uint16_t) 0x0008
 
 #define CONFIGURATION_REGISTER (uint8_t) 0x01
 #define LOWLIMIT_REGISTER (uint8_t) 0x02

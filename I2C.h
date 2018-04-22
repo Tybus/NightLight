@@ -34,9 +34,9 @@ public:
      * @param[in] i_pByteValues Used to pass the pointer to a byte array.
      */
 
-    bool send(uint8_t *, size_t);
+    bool send(uint8_t *i_pByteValues, size_t i_stSize, bool * i_pSendDone, bool * i_pSendFail = NULL);
     //! Reads data from the specified address.
-    bool read(uint8_t *, size_t , bool *);
+    bool read(uint8_t * i_pRxBuff, size_t i_stReadAmmount, bool * i_pReadDone, bool * i_pReadFail = NULL);
     //! Manages the Retry Counts in the Read and Write procedures
     static uint8_t m_u8RetryCount;
     //! Is used to store the Transmit Buffer
@@ -53,7 +53,10 @@ public:
     static bool * m_sbReadDone;
     //! Signals if the I2C Bus is ready to start sending
     static bool m_sbBusReady;
+    //!Signals if a transmition was a failure.
+    static bool * m_sbFailedTransmition;
     //! Destructor
+    static bool * m_sbDone;
     ~I2C();
 private:
     //! Active if the I2C is already running.

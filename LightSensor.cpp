@@ -9,11 +9,19 @@
 I2C LightSensor::m_I2CLightSensor = I2C(LIGHT_SENSOR);
 uint16_t LightSensor::m_u16ConfigurationRegister = 0b1100110000000000;
 LightSensor::LightSensor(){
-    m_I2CLightSensor = I2C(LIGHT_SENSOR);
     m_u16ConfigurationRegister = 0b1100110000000000;
     uint8_t l_aConfigurationMessage[3] = {CONFIGURATION_REGISTER, DFLT_CONFIGURATION_HIGH,
                                           DFLT_CONFIGURATION_LOW};
-    while(!m_I2CLightSensor.send(l_aConfigurationMessage,3));
+    bool * l_SendDone = (bool *) malloc(sizeof(bool));
+    bool * l_SendFail = (bool *) malloc(sizeof(bool));
+    while(1){
+        while(!m_I2CLightSensor.send(l_aConfigurationMessage,3,l_SendDone,l_SendFail));
+        while(!*l_SendDone);
+        if(!l_SendFail)
+            break;
+    }
+    free(l_SendDone);
+    free(l_SendFail);
 }
 
 LightSensor::LightSensor(nibble i_nRange, bool i_bConversionTime, bool i_bOperationMode,
@@ -21,10 +29,11 @@ LightSensor::LightSensor(nibble i_nRange, bool i_bConversionTime, bool i_bOperat
     uint16_t l_u16CastedRange, l_u16CastedConversionTime,l_u16CastedOperationMode,
              l_u16WindowMode, l_u16INTMode;
     uint8_t l_aConfigurationMessage[3];
-    m_I2CLightSensor = I2C(LIGHT_SENSOR);
+    bool * l_pSendDone = (bool *) malloc(sizeof(bool));
+    bool * l_pSendFail = (bool *) malloc(sizeof(bool));
+
+
     //Creates a Configuration Register.
-
-
     l_u16CastedRange = ((uint16_t) i_nRange.value) << 12;
     l_u16CastedConversionTime = ((uint16_t) i_bConversionTime ) << 11;
 
@@ -40,15 +49,21 @@ LightSensor::LightSensor(nibble i_nRange, bool i_bConversionTime, bool i_bOperat
     l_u16WindowMode = ((uint16_t) i_bWindowMode) >> 4;
     l_u16INTMode = ((uint16_t) i_bINTMode) >> 3;
     m_u16ConfigurationRegister = l_u16CastedRange | l_u16CastedConversionTime|
-            l_u16CastedOperationMode| l_u16WindowMode | l_u16INTMode ;
+            l_u16CastedOperationMode| l_u16WindowMode | l_u16INTMode | LS_POL;
     //Set the message.
     l_aConfigurationMessage[0] = CONFIGURATION_REGISTER; //Should Have used 8 bit registers from the begining
     l_aConfigurationMessage[1] = (uint8_t) (m_u16ConfigurationRegister >> 8) ;
     l_aConfigurationMessage[2] = (uint8_t) (m_u16ConfigurationRegister & 0x00FF);
 
-    while(!m_I2CLightSensor.send(l_aConfigurationMessage,3)){ //Make sure you start writing
+    while(1){
+        while(!m_I2CLightSensor.send(l_aConfigurationMessage,3,l_pSendDone, l_pSendFail)); //Make sure you start writting
+        while(!*l_pSendDone);//Wait until the send is completed
+        if(!*l_pSendFail)
+            break;
     }
 
+    free(l_pSendDone);
+    free(l_pSendFail);
 }
 void LightSensor::interruptConfigure(){
     while(!I2C::m_sbBusReady);
@@ -67,7 +82,7 @@ void LightSensor::interruptConfigure(){
 
     P4IE |= BIT6; //Enables interrupts for the pin.
     // Lets accept interrupts.
-    NVIC_SetPriority(PORT4_IRQn,1);
+    NVIC_SetPriority(PORT4_IRQn,2);
     NVIC_EnableIRQ(PORT4_IRQn);
 
 }
@@ -78,16 +93,22 @@ float LightSensor::read(){
     uint16_t l_u16FractionalResult;
     uint16_t l_u16PowTwo;
     uint8_t l_u8Exponent;
-    bool * l_pReadDone = (bool *) malloc(sizeof(bool)); //Finally found the culprit
+    bool * l_pDone = (bool *) malloc(sizeof(bool)); //Finally found the culprit
+    bool * l_pFail = (bool *) malloc(sizeof(bool));
+
     float l_fLSBSize, o_fLux;
-    while(!m_I2CLightSensor.send(&l_u8RegisterAddress,1)); //Send the Register Address to be read.
-    while(!m_I2CLightSensor.read(l_aResultRegister, 2, l_pReadDone)); //Wait till you can send the read.
-
-    while(!*l_pReadDone){ // Wait till its done reading
-       // m_I2CLightSensor.send(&l_u8RegisterAddress,1);
-       // m_I2CLightSensor.read(l_aResultRegister, 2, l_pReadDone); //Wait till you can send the read.
+    while(1){
+        while(!m_I2CLightSensor.send(&l_u8RegisterAddress,1, l_pDone,l_pFail)); //Send the Register Address to be read.
+        while(!*l_pDone);
+        if(!*l_pFail)
+            break;
     }
-
+    while(1){
+        while(!m_I2CLightSensor.read(l_aResultRegister, 2,l_pDone,l_pFail)); //Wait till you can send the read.
+        while(!*l_pDone);
+        if(!*l_pFail)
+            break;
+    }
     //Converting the value found in the register to a uint16t
     l_u8Exponent = l_aResultRegister[0] >> 4; //Get the real value of the exponent.
     //printf("Exponent %d \n", l_u8Exponent);
@@ -99,7 +120,10 @@ float LightSensor::read(){
     //printf("2^EXP %d \n", l_u16PowTwo);
     l_fLSBSize = 0.01*l_u16PowTwo;
     o_fLux = l_fLSBSize*l_u16FractionalResult;
-    free(l_pReadDone); //Free the memory!.
+
+    free(l_pDone); //Free the memory!.
+    free(l_pFail);
+
     return o_fLux;
 }
 LightSensor::~LightSensor()
@@ -116,6 +140,9 @@ void LightSensor::setLimit(bool i_bWhichLimit, float i_fLimit){
     uint16_t l_u16XE, l_u16TX, l_u16RegValue;
     uint8_t l_u8RegWriteValue[3];
     float l_fTX;
+    bool * l_pDone = (bool *) malloc(sizeof(bool));
+    bool * l_pFail = (bool *) malloc(sizeof(bool));
+
     if(i_fLimit <= 1*40.95)
         l_u16XE = 0;
     else if(i_fLimit <= 2*40.95)
@@ -165,23 +192,39 @@ void LightSensor::setLimit(bool i_bWhichLimit, float i_fLimit){
         l_u8RegWriteValue[0] = HIGHLIMIT_REGISTER;
         break;
     }
-    while(!m_I2CLightSensor.send(l_u8RegWriteValue,3)){ //Make sure you start writing
+    while(1){
+        while(!m_I2CLightSensor.send(l_u8RegWriteValue,3,l_pDone,l_pFail)); //Make sure you start writing
+        while(!*l_pDone);
+        if(!*l_pFail)
+            break;
     }
+    free(l_pDone);
+    free(l_pFail);
 }
 uint16_t LightSensor::readRegister(uint8_t i_u8Register){
     uint16_t o_u16RegisterContents;
     uint8_t * l_pRegisterToSend = &i_u8Register;
-    bool * l_pReadDone = (bool *) malloc(sizeof(bool));
+    bool * l_pDone = (bool *) malloc(sizeof(bool));
+    bool * l_pFail = (bool *) malloc(sizeof(bool));
     uint8_t l_u8RegisterContents[2];
+    while(1){
+        while(!m_I2CLightSensor.send(l_pRegisterToSend,1,l_pDone,l_pFail));
+        while(!*l_pDone);
+        if(!*l_pFail)
+            break;
+    }
+    while(1){
+        while(!m_I2CLightSensor.read(l_u8RegisterContents, 2, l_pDone, l_pFail));
+        while(!*l_pDone);
+        if(!*l_pFail)
+            break;
 
-    while(!m_I2CLightSensor.send(l_pRegisterToSend,1));
-    while(!m_I2CLightSensor.read(l_u8RegisterContents, 2, l_pReadDone));
-    while(!*l_pReadDone);
-
+    }
     o_u16RegisterContents = (uint16_t) l_u8RegisterContents[1];
     o_u16RegisterContents |= ( ((uint16_t) l_u8RegisterContents[0]) << 8);
 
-    free(l_pReadDone);
+    free(l_pDone);
+    free(l_pFail);
     return o_u16RegisterContents;
 }
 extern "C"{
@@ -200,5 +243,6 @@ void PORT4_IRQHandler(void){ //This may overwrite an existing IRQ
         }
         P4IFG &= ~BIT6; //Clear the interrupt flag
     }
+    __enable_irq();
 }
 }
