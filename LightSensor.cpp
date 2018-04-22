@@ -51,6 +51,7 @@ LightSensor::LightSensor(nibble i_nRange, bool i_bConversionTime, bool i_bOperat
 
 }
 void LightSensor::interruptConfigure(){
+    while(!I2C::m_sbBusReady);
     P4SEL0 &= ~BIT6; // Selects P4.6 as GPIO
     P4SEL1 &= ~BIT6;
 
@@ -58,12 +59,13 @@ void LightSensor::interruptConfigure(){
     P4REN &= ~BIT6; //Dissables the pull up/down resistors for P4.6
 
 
-    P4IE |= BIT6; //Enables interrupts for the pin.
+
     if(P4IN & BIT6) //Start condition is high/
         P4IES |= BIT6; //Will interrupt in high to low transitions.
     else
         P4IES &= ~BIT6; //Will interrupt in low to high transitions.
 
+    P4IE |= BIT6; //Enables interrupts for the pin.
     // Lets accept interrupts.
     NVIC_SetPriority(PORT4_IRQn,1);
     NVIC_EnableIRQ(PORT4_IRQn);
@@ -151,19 +153,36 @@ void LightSensor::setLimit(bool i_bWhichLimit, float i_fLimit){
 
     l_fTX = i_fLimit /(0.01*(1 << l_u16XE)); //The TX will be set as lux_max/ 2^XE
     l_u16TX = (uint16_t) l_fTX;
-
     l_u16RegValue = l_u16TX | l_u16XE;
     l_u8RegWriteValue[1] = (uint8_t) (l_u16RegValue >> 8);
     l_u8RegWriteValue[2] = (uint8_t) (l_u16RegValue & 0x00FF);
+
     switch(i_bWhichLimit){
     case(LOW_LIMIT):
         l_u8RegWriteValue[0] = LOWLIMIT_REGISTER;
+        break;
     case(HIGH_LIMIT):
         l_u8RegWriteValue[0] = HIGHLIMIT_REGISTER;
+        break;
     }
     while(!m_I2CLightSensor.send(l_u8RegWriteValue,3)){ //Make sure you start writing
     }
-    LightSensor::interruptConfigure();
+}
+uint16_t LightSensor::readRegister(uint8_t i_u8Register){
+    uint16_t o_u16RegisterContents;
+    uint8_t * l_pRegisterToSend = &i_u8Register;
+    bool * l_pReadDone = (bool *) malloc(sizeof(bool));
+    uint8_t l_u8RegisterContents[2];
+
+    while(!m_I2CLightSensor.send(l_pRegisterToSend,1));
+    while(!m_I2CLightSensor.read(l_u8RegisterContents, 2, l_pReadDone));
+    while(!*l_pReadDone);
+
+    o_u16RegisterContents = (uint16_t) l_u8RegisterContents[1];
+    o_u16RegisterContents |= ( ((uint16_t) l_u8RegisterContents[0]) << 8);
+
+    free(l_pReadDone);
+    return o_u16RegisterContents;
 }
 extern "C"{
 void PORT4_IRQHandler(void){ //This may overwrite an existing IRQ
@@ -172,10 +191,12 @@ void PORT4_IRQHandler(void){ //This may overwrite an existing IRQ
         if(P4IES & BIT6){ //High to low Transition
             P4IES &=~BIT6; //Now wait for a Low to High Transition
             //Do something about the transition.
+            printf("Light's low");
         }
         else { //Low to high transition
             P4IES |= BIT6; //Now wait for a High to low transition Transition
             //Do something about the transition
+            printf("Light's high");
         }
         P4IFG &= ~BIT6; //Clear the interrupt flag
     }

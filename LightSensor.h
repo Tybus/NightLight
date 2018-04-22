@@ -58,6 +58,10 @@ public:
     bool setHysthValue(float i_fHysthValue);
     //! Dtor, TBD.
     virtual ~LightSensor();
+    //! Configures Interrupts. using P4.6 of the Board
+    void interruptConfigure(void);
+    //! Used for reading a register from the light sensor.
+    uint16_t readRegister(uint8_t i_u8Register);
 
 private:
     //! Used to set a certain limit.
@@ -66,8 +70,7 @@ private:
     static I2C m_I2CLightSensor;
     //! Configuration Register Backup.
     static uint16_t m_u16ConfigurationRegister;
-    //! Configures Interrupts. using P4.6 of the Board
-    void interruptConfigure(void);
+
 };
 
 #endif /* LIGHTSENSOR_H_ */
