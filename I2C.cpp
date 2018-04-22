@@ -55,10 +55,6 @@ I2C::I2C(uint8_t iu8SlaveAddress){
 bool I2C::send(uint8_t *i_pByteValues, size_t i_stSize){
     bool o_bCorrectlySent = 0;
     if(m_sbBusReady){//First check the conditions in which you can start sending.
-        UCB1I2CSA = m_u16SlaveAddress;//Set the slave addres.
-        UCB1CTLW0 |= UCTR; // Selecting Transmitter mode.
-        UCB1CTLW0 |= UCTXSTT;//Starts the transmision.
-
         //Store some member variables
         m_su8ByteValues = i_pByteValues;
         m_sstByteArraySize = i_stSize;
@@ -66,6 +62,13 @@ bool I2C::send(uint8_t *i_pByteValues, size_t i_stSize){
         m_u8RetryCount = 0;
         m_sbBusReady = 0;
         o_bCorrectlySent = 1;
+
+        //Do Hardware Stuff
+        UCB1I2CSA = m_u16SlaveAddress;//Set the slave addres.
+        UCB1CTLW0 |= UCTR; // Selecting Transmitter mode.
+        UCB1CTLW0 |= UCTXSTT;//Starts the transmision.
+
+
     }
     return o_bCorrectlySent;
 }
@@ -73,11 +76,8 @@ bool I2C::read(uint8_t * i_pRxBuff, size_t i_stReadAmmount, bool * i_pReadDone){
     bool o_bCorrectlyRead = 0;
     //Conditions to Start Reading
     if(m_sbBusReady){
-        UCB1I2CSA |= m_u16SlaveAddress; //Sets the Slave Address
-        UCB1CTLW0 &= ~UCTR; //States Receiver Mode.
-        UCB1CTLW0 |= UCTXSTT; // Starts Receiving
-
         //Store Some variables
+        *i_pReadDone = 0;
         m_sstRxBuffSize = i_stReadAmmount;
         m_sbReadDone = i_pReadDone;
         m_spRxBuff = i_pRxBuff;
@@ -85,13 +85,19 @@ bool I2C::read(uint8_t * i_pRxBuff, size_t i_stReadAmmount, bool * i_pReadDone){
         o_bCorrectlyRead = 1;
         m_u8RetryCount = 0;
         m_sbBusReady = 0;
+
+        //Do hardware Stuff
+        UCB1I2CSA |= m_u16SlaveAddress; //Sets the Slave Address
+        UCB1CTLW0 &= ~UCTR; //States Receiver Mode.
+        UCB1CTLW0 |= UCTXSTT; // Starts Receiving
+
+
     }
     return o_bCorrectlyRead;
 
 }
-I2C::~I2C()
-{
-    // TODO Auto-generated destructor stub
+I2C::~I2C(){
+    free(I2C::m_su8ByteValues);
 }
 extern "C" {
 void EUSCIB1_IRQHandler(void){
@@ -108,7 +114,6 @@ void EUSCIB1_IRQHandler(void){
                 UCB1CTLW0 |= UCTXSTP;
                 I2C::m_sbBusReady = 1; //Stop and Start Conditions at the same time?
             }
-
         }
         else if(UCB1IFG & UCTXIFG0){ //if UCTXIFG0 is set
             //Set the value
@@ -119,14 +124,9 @@ void EUSCIB1_IRQHandler(void){
             else{
                 UCB1CTLW0 |= UCTXSTP;
                 I2C::m_sbBusReady =1; //Stop and Start Conditions at the same time?
+                *I2C::m_sbReadDone = 1;  // ?
             }
         }
-        /* These else are making the code to only execute once. (and badly.) */
-  /*     else {
-            int j = 0;
-            j = j+1;
-        }
-*/
     }
     else{ // if it is in Receive Mode
         if (UCB1IFG & UCNACKIFG){ // if UCNACKIFG
@@ -143,8 +143,6 @@ void EUSCIB1_IRQHandler(void){
                 *I2C::m_sbReadDone = 1;
             }
         }
-        //else if(UCB1IFG & STARTIF){ // if STARTIF
-        //}
         else if(UCB1IFG & UCRXIFG){ // IF UCRXIFG
             if(I2C::m_sstIterator == I2C::m_sstRxBuffSize -1){//Iterator at the end of the buffer
                 UCB1CTLW0 |= UCTXSTP; //Send Stop
@@ -154,12 +152,6 @@ void EUSCIB1_IRQHandler(void){
             I2C::m_spRxBuff[I2C::m_sstIterator] = (uint8_t) UCB1RXBUF; //This should Totally Count as as UCRB1RXBUF Read.
             I2C::m_sstIterator++;
         }
-        /*
-        else {
-            int a = 0;
-            a = a+1;
-        }
-        */
     }
     UCB1IFG = 0; //Delete all flags.
     __enable_irq();

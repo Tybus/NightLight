@@ -20,10 +20,18 @@
 #define ACTIVE_HIGH (bool) 1
 
 #define CONFIGURATION_REGISTER (uint8_t) 0x01
+#define LOWLIMIT_REGISTER (uint8_t) 0x02
+#define HIGHLIMIT_REGISTER (uint8_t) 0x03
 
 #define DFLT_CONFIGURATION_HIGH 0b11001100
 #define DFLT_CONFIGURATION_LOW 0b00000000
 
+#define LS_ONOFF_TH (float) 6.0f
+
+#define HIGH_LIMIT (bool) 1
+#define LOW_LIMIT (bool) 0
+
+#define LATCH_FIELD_1 (uint16_t) 0x0004
 struct nibble {
     uint8_t value:4;
 };
@@ -42,12 +50,24 @@ public:
     //! Reconfigurate the already existante LightSensor.
     void reconfigure(nibble i_nRange, bool i_bConversionTime, bool i_bOperationMode,
                              bool i_bWindowMode, bool i_bINTMode);
+    //! Configure the Low Limit in the Latched Window Interrupt Mode
+    void setLowLimit(float i_fLowLimit);
+    //! Configure the Hight Limit in the Latched Window Interrupt Mode
+    void setHighLimit(float i_fHighLimit);
+    //! Configure the Comparation value in the Transparent Hystheresis Comparation Mode.
+    bool setHysthValue(float i_fHysthValue);
     //! Dtor, TBD.
     virtual ~LightSensor();
 
 private:
+    //! Used to set a certain limit.
+    void setLimit(bool i_bWhichLimit, float i_fLimit);
+    //! I2C object used for the Light Sensor Comunications
     static I2C m_I2CLightSensor;
+    //! Configuration Register Backup.
     static uint16_t m_u16ConfigurationRegister;
+    //! Configures Interrupts. using P4.6 of the Board
+    void interruptConfigure(void);
 };
 
 #endif /* LIGHTSENSOR_H_ */
