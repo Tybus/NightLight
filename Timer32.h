@@ -31,11 +31,11 @@ public:
     /*! used  to suppress the bounces of the buttons declared in the BoosterPack. Can work with any other
     * Interrupt capable button. (Even Ports)
     */
-    bool suppressBounce(DIO_PORT_Even_Interruptable_Type * i_pPort, uint16_t i_u16Bit, float i_fBounceMillis); //For the P3.5(J4.32), P5.1 (J4.33), P4.1 (J1.5).
+    static bool suppressBounce(DIO_PORT_Even_Interruptable_Type * i_pPort, uint16_t i_u16Bit, float i_fBounceMillis); //For the P3.5(J4.32), P5.1 (J4.33), P4.1 (J1.5).
     /*! used  to suppress the bounces of the buttons declared in the BoosterPack. Can work with any other
     * Interrupt capable button. (Odd Ports)
     */
-    bool suppressBounce(DIO_PORT_Odd_Interruptable_Type * i_pPort, uint16_t i_u16Bit, float i_fBounceMillis);
+    static bool suppressBounce(DIO_PORT_Odd_Interruptable_Type * i_pPort, uint16_t i_u16Bit, float i_fBounceMillis);
     /*!
      * Declares the pins from which the Bounce is being suppresed (TIMER32_1)
      */
@@ -55,9 +55,9 @@ public:
 
 private:
     //!Calculates the prescale of the Timer32Configuration.
-    uint8_t calculatePrescale(float i_fBounceMillis);
+    static uint8_t calculatePrescale(float i_fBounceMillis);
     //!Calculates the value which will be sent to the Timer32 to start decreasing.
-    uint32_t calculateValue(float i_fBounceMillis, uint8_t i_u8Prescale);
+    static uint32_t calculateValue(float i_fBounceMillis, uint8_t i_u8Prescale);
 };
 
 #endif /* TIMER32_H_ */

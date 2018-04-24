@@ -227,6 +227,22 @@ uint16_t LightSensor::readRegister(uint8_t i_u8Register){
     free(l_pFail);
     return o_u16RegisterContents;
 }
+void LightSensor::PORT4_IRQHandler(void){
+    if(P4IFG & BIT6){ //Interrupt from P4.6
+        if(P4IES & BIT6){ //High to low Transition
+            P4IES &=~BIT6; //Now wait for a Low to High Transition
+            //Do something about the transition.
+            printf("Light's low");
+        }
+        else { //Low to high transition
+            P4IES |= BIT6; //Now wait for a High to low transition Transition
+            //Do something about the transition
+            printf("Light's high");
+        }
+        P4IFG &= ~BIT6; //Clear the interrupt flag
+    }
+}
+/*
 extern "C"{
 void PORT4_IRQHandler(void){ //This may overwrite an existing IRQ
     __disable_irq();
@@ -246,3 +262,4 @@ void PORT4_IRQHandler(void){ //This may overwrite an existing IRQ
     __enable_irq();
 }
 }
+*/

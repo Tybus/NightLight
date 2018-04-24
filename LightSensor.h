@@ -63,6 +63,8 @@ public:
     void interruptConfigure(void);
     //! Used for reading a register from the light sensor.
     uint16_t readRegister(uint8_t i_u8Register);
+    //! Handles the interrupt from the light sensor.
+    static void PORT4_IRQHandler(void);
 
 private:
     //! Used to set a certain limit.

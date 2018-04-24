@@ -6,6 +6,7 @@
  */
 
 #include <Timer32.h>
+
 bool Timer32::m_bTimer1Available = 1;
 bool Timer32::m_bTimer2Available = 1;
 Timer32::pin Timer32::m_pinBounceTIMER32_1 = {.m_pEvenPort = NULL, .m_pOddPort = NULL,
@@ -128,7 +129,7 @@ uint8_t Timer32::calculatePrescale(float i_fBounceMillis){ //Asumming a 32 Bit c
 }
 uint32_t Timer32::calculateValue(float i_fBounceMillis, uint8_t i_u8Prescale){
     uint32_t o_u32Value;
-    o_u32Value = (uint32_t) i_fBounceMillis/( 1000 * MCLK_F *( 1<< i_u8Prescale)); //milliseconds/clock in milliseconds
+    o_u32Value = (uint32_t) i_fBounceMillis/( 1000 *( 1<< i_u8Prescale)/MCLK_F); //milliseconds/clock in milliseconds
     return o_u32Value;
 }
 
@@ -163,6 +164,7 @@ void T32_INT1_IRQHandler(void){
         }
         //Re enable the interrupts from the button.
         Timer32::m_pinBounceTIMER32_1.m_pOddPort->IE |= Timer32::m_pinBounceTIMER32_1.m_u16Bit;
+        Timer32::m_pinBounceTIMER32_1.m_pOddPort->IFG &= ~Timer32::m_pinBounceTIMER32_1.m_u16Bit;
 
     }
     else if(Timer32::m_pinBounceTIMER32_1.m_pEvenPort != NULL
@@ -176,6 +178,7 @@ void T32_INT1_IRQHandler(void){
         }
         //Re enable the interrupts from the button.
         Timer32::m_pinBounceTIMER32_1.m_pEvenPort->IE |= Timer32::m_pinBounceTIMER32_1.m_u16Bit;
+        Timer32::m_pinBounceTIMER32_1.m_pEvenPort->IFG &= ~Timer32::m_pinBounceTIMER32_1.m_u16Bit;
     }
     else if(Timer32::m_pinBounceTIMER32_1.m_pOddPort != NULL //You should not enter here
             && Timer32::m_pinBounceTIMER32_1.m_pEvenPort != NULL){ //Both are non NULL
@@ -184,6 +187,7 @@ void T32_INT1_IRQHandler(void){
         Timer32::m_pinBounceTIMER32_1.m_pEvenPort->IE |= Timer32::m_pinBounceTIMER32_1.m_u16Bit;
 
     }
+    TIMER32_1->CONTROL &= ~TIMER32_CONTROL_ENABLE & ~TIMER32_CONTROL_IE;// Dissable interrupts from timer.
     __enable_irq();
 }
 void T32_INT2_IRQHandler(void){
@@ -203,7 +207,7 @@ void T32_INT2_IRQHandler(void){
         }
         //Re enable the interrupts from the button.
         Timer32::m_pinBounceTIMER32_2.m_pOddPort->IE |= Timer32::m_pinBounceTIMER32_2.m_u16Bit;
-
+        Timer32::m_pinBounceTIMER32_2.m_pOddPort->IFG &= ~Timer32::m_pinBounceTIMER32_2.m_u16Bit;
     }
     else if(Timer32::m_pinBounceTIMER32_2.m_pEvenPort != NULL
             && Timer32::m_pinBounceTIMER32_2.m_pOddPort == NULL){//if its an Even Port
@@ -216,6 +220,7 @@ void T32_INT2_IRQHandler(void){
         }
         //Re enable the interrupts from the button.
         Timer32::m_pinBounceTIMER32_2.m_pEvenPort->IE |= Timer32::m_pinBounceTIMER32_2.m_u16Bit;
+        Timer32::m_pinBounceTIMER32_2.m_pEvenPort->IFG &= ~Timer32::m_pinBounceTIMER32_2.m_u16Bit;
     }
     else if(Timer32::m_pinBounceTIMER32_2.m_pOddPort != NULL //You should not enter here
             && Timer32::m_pinBounceTIMER32_2.m_pEvenPort != NULL){ //Both are non NULL
@@ -224,6 +229,7 @@ void T32_INT2_IRQHandler(void){
         Timer32::m_pinBounceTIMER32_2.m_pEvenPort->IE |= Timer32::m_pinBounceTIMER32_2.m_u16Bit;
 
     }
+    TIMER32_2->CONTROL &= ~TIMER32_CONTROL_ENABLE & ~TIMER32_CONTROL_IE;// Dissable interrupts from timer.
     __enable_irq();
 }
 }
