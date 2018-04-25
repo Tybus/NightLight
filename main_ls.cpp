@@ -33,7 +33,7 @@ uint16_t read_register(I2C * i_pI2CSlave, uint8_t i_u8Register){
     return o_u16retval;
 
 }
-int main3(void){
+int main(void){
     WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD;     // stop watchdog time
     printf("Inicializando, Creando el objeto \n");
     I2C l_I2CLightSensor = I2C(LIGHT_SENSOR);

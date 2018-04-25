@@ -242,24 +242,14 @@ void LightSensor::PORT4_IRQHandler(void){
         P4IFG &= ~BIT6; //Clear the interrupt flag
     }
 }
-/*
-extern "C"{
-void PORT4_IRQHandler(void){ //This may overwrite an existing IRQ
-    __disable_irq();
-    if(P4IFG & BIT6){ //Interrupt from P4.6
-        if(P4IES & BIT6){ //High to low Transition
-            P4IES &=~BIT6; //Now wait for a Low to High Transition
-            //Do something about the transition.
-            printf("Light's low");
-        }
-        else { //Low to high transition
-            P4IES |= BIT6; //Now wait for a High to low transition Transition
-            //Do something about the transition
-            printf("Light's high");
-        }
-        P4IFG &= ~BIT6; //Clear the interrupt flag
-    }
-    __enable_irq();
+
+bool LightSensor::aboveThreshold(void){
+    bool o_bAboveThreshold = 0;
+
+    if(P4IN & BIT6)
+        o_bAboveThreshold = 1;
+    else
+        o_bAboveThreshold = 0;
+
+    return o_bAboveThreshold;
 }
-}
-*/

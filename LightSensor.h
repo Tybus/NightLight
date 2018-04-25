@@ -65,7 +65,8 @@ public:
     uint16_t readRegister(uint8_t i_u8Register);
     //! Handles the interrupt from the light sensor.
     static void PORT4_IRQHandler(void);
-
+    //! Returns True is the light is above the specified threshold and false if its not
+    bool aboveThreshold(void);
 private:
     //! Used to set a certain limit.
     void setLimit(bool i_bWhichLimit, float i_fLimit);

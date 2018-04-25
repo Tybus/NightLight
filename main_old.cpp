@@ -69,21 +69,14 @@ void main_loop(void){
         //ADC14->CTL0 |= ADC14_CTL0_SC;
     }
 }
-void main_other(void){
+void main(void){
 	WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD;		// stop watchdog time
-	ADC Mic = ADC(P4,BIT3);
-	Mic.quick_setup(1);
-	//ADC14->CTL0 |= ADC14_CTL0_SC; // Mic.init();
-	Mic.init();
-	while(1){
-	}
-	   // printf("%d \n", Mic.read(P4,BIT3));
-	//setup();
-	//startup();
-	//ADC14->CTL0 |= ADC14_CTL0_SC;
-	//main_loop();
+
+	configure_adc(P4, BIT3);
+
 }
-/*
+
+
 extern "C"{
 void ADC14_IRQHandler(void) {
     uint32_t l_u32flag;
@@ -93,4 +86,4 @@ void ADC14_IRQHandler(void) {
     return;
     }
 }
-*/
+
