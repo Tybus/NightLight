@@ -13,12 +13,12 @@
 
 #define ONTIME 10
 #define OVERNOISE 1.5
-
-float g_f1sRMS = 0;
+//Some global variables.
+float g_f1sRMS = 0; //Represents the RMS of 1s and 5s
 float g_f5sRMS = 0;
 float g_f1sSquareSum = 0;
 float g_f5sSquareSum = 0;
-
+//Stores Seconds Passed, The ammount of samples and the Seconds while on.
 uint8_t g_u8SecondsPassed = 0;
 uint32_t g_u32SampleAmmount1s = 0;
 uint32_t g_u32SampleAmmount5s = 0;
@@ -33,19 +33,21 @@ int main(void){
 
 
 
-    NightLight::configureLights();
-    NightLight::configureLightSensor(&l_LSLightSensor);
-    NightLight::functionConfirmation();
-    g_bLampState = NightLight::initState();
-    NightLight::configureRTC();
-    NightLight::configureMic();
-    NightLight::configurePORT3_5Button();
+    NightLight::configureLights(); //Set the lights as outputs
+    NightLight::configureLightSensor(&l_LSLightSensor); // Set the thresholds in the sensor
+    NightLight::functionConfirmation(); //Tripple Blink
+    g_bLampState = NightLight::initState(); //Is it on or Off?
+    NightLight::configureRTC(); //Configure the RTC in order to interrupt each second/
+    NightLight::configureMic(); //Configure the mic in order to get ADC reads
+    NightLight::configurePORT3_5Button(); //Configure the button interrupt (P3.5)
 
     while(1){
-        if(g_bLampState == OFF){
-            if(!l_LSLightSensor.aboveThreshold() && g_f1sRMS > OVERNOISE* g_f5sRMS){
-                g_bLampState = 1;
+        if(g_bLampState == OFF){ //If the lamp is off
+            if(!l_LSLightSensor.aboveThreshold() && g_f1sRMS > OVERNOISE* g_f5sRMS){ //if its night and
+                                                                                     // The noise level is high
+                g_bLampState = 1; //Turn on the lights!
                 NightLight::toggleLEDs(ON);
+                g_u32OnSeconds = 0;
             }
         }
     }
@@ -53,7 +55,7 @@ int main(void){
 extern "C" {
 void PORT4_IRQHandler(void){
     __disable_irq();
-    LightSensor::PORT4_IRQHandler();
+    LightSensor::PORT4_IRQHandler(); //Handle the button interrupt (Not used).
     __enable_irq();
 }
 void PORT3_IRQHandler(void){//Used for the button.
@@ -68,20 +70,22 @@ void ADC14_IRQHandler(void){
     __disable_irq();
     int16_t l_i16AnalogRead;
     int32_t l_i32SquaredRead;
-    l_i16AnalogRead= ADC14->MEM[0];//Extend the sign. currently only valid for 14 bit conversions.
+
+    l_i16AnalogRead= ADC14->MEM[0]; //Extend the sign. currently only valid for 14 bit conversions.
     l_i16AnalogRead >>= 2;
-    if(l_i16AnalogRead & 0x2000){
+    if(l_i16AnalogRead & 0x2000){ //Convert the value into a signed long
         l_i16AnalogRead |= 0xC000;
     }
+
     l_i32SquaredRead = l_i16AnalogRead*l_i16AnalogRead;
 
-    g_f1sSquareSum += l_i32SquaredRead;
+    g_f1sSquareSum += l_i32SquaredRead; //Calulate the square sums
     g_f5sSquareSum += l_i32SquaredRead;
 
-    g_u32SampleAmmount1s ++;
+    g_u32SampleAmmount1s ++; //Another Sample.
     g_u32SampleAmmount5s ++;
 
-    ADC14->CLRIFGR0 = ADC14_CLRIFGR0_CLRIFG0;
+    ADC14->CLRIFGR0 = ADC14_CLRIFGR0_CLRIFG0; //CLR flag and Start another conversion.
     ADC14->CTL0 |= ADC14_CTL0_SC;
     __enable_irq();
     return;
@@ -148,7 +152,8 @@ void T32_INT1_IRQHandler(void){
             && Timer32::m_pinBounceTIMER32_1.m_pOddPort == NULL){//if its an Even Port
         //Check the input value
         if(!(Timer32::m_pinBounceTIMER32_1.m_pEvenPort->IN & Timer32::m_pinBounceTIMER32_1.m_u16Bit)){
-            //The botton was pressed and it stabilized.
+            //The botton was pressed and it stabilized
+            //Toggle the LEDs.
             NightLight::toggleLEDs(!g_bLampState);
             g_bLampState = !g_bLampState;
             g_u32OnSeconds = 0;
